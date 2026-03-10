@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+{% block title %}Settings - Skin Cancer Detection Tool{% endblock %}
+
+{% block extra_css %}
+<style>
+    .settings-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .setting-section {
+        border-bottom: 1px solid #dee2e6;
+        padding: 2rem 0;
+    }
+    
+    .setting-section:last-child {
+        border-bottom: none;
+    }
+    
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+    
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+    
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+        background-color: #e74c3c;
+    }
+    
+    input:checked + .slider:before {
+        transform: translateX(26px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="settings-card p-5 page-enter">
+                <h2 class="text-center mb-4">
+                    <i class="fas fa-cog text-primary me-2"></i>
+                    Account Settings
+                </h2>
+                
+                <!-- Profile Settings -->
+                <div class="setting-section">
+                    <h4 class="fw-bold mb-3">
+                        <i class="fas fa-user me-2"></i>
+                        Profile Information
+                    </h4>
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" value="{{ current_user.username }}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" value="{{ current_user.email }}" readonly>
+                            </div>
+                        </div>
+                        <p class="text-muted mt-2">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Contact support to change your username or email
+                        </p>
+                    </form>
+                </div>
+                
+                <!-- Notification Settings -->
+                <div class="setting-section">
+                    <h4 class="fw-bold mb-3">
+                        <i class="fas fa-bell me-2"></i>
+                        Notification Preferences
+                    </h4>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1">Email Notifications</h6>
+                                    <p class="text-muted mb-0 small">Receive analysis results and reminders via email</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1">High Risk Alerts</h6>
+                                    <p class="text-muted mb-0 small">Immediate alerts for high-risk analysis results</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1">Monthly Reports</h6>
+                                    <p class="text-muted mb-0 small">Monthly summary of your skin health monitoring</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Privacy Settings -->
+                <div class="setting-section">
+                    <h4 class="fw-bold mb-3">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        Privacy & Security
+                    </h4>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1">Data Analytics</h6>
+                                    <p class="text-muted mb-0 small">Allow anonymous data to improve our AI model</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1">Auto-Delete Old Data</h6>
+                                    <p class="text-muted mb-0 small">Automatically delete analysis data older than 2 years</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Danger Zone -->
+                <div class="setting-section">
+                    <h4 class="fw-bold mb-3 text-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Danger Zone
+                    </h4>
+                    <div class="alert alert-danger">
+                        <h6>Delete Account</h6>
+                        <p class="mb-2">Permanently delete your account and all associated data. This action cannot be undone.</p>
+                        <button class="btn btn-danger btn-sm" onclick="confirmDelete()">
+                            <i class="fas fa-trash me-2"></i>Delete My Account
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Save Button -->
+                <div class="text-center">
+                    <button class="btn btn-primary btn-lg me-3" onclick="saveSettings()">
+                        <i class="fas fa-save me-2"></i>Save Settings
+                    </button>
+                    <a href="{{ url_for('profile') }}" class="btn btn-outline-secondary btn-lg">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function saveSettings() {
+    // Show success message
+    alert('Settings saved successfully!');
+}
+
+function confirmDelete() {
+    if (confirm('Are you absolutely sure you want to delete your account? This action cannot be undone.')) {
+        if (confirm('This will permanently delete all your data. Type "DELETE" to confirm.')) {
+            // In a real app, this would call a delete endpoint
+            alert('Account deletion would be processed here.');
+        }
+    }
+}
+</script>
+{% endblock %}

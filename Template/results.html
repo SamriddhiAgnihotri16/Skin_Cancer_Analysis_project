@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}Analysis Results - Skin Cancer Detection Tool{% endblock %}
+
+{% block content %}
+<div class="hospital-theme" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></div>
+<div class="hospital-ambiance">
+<div class="row">
+    <div class="col-lg-6 page-enter">
+        <!-- Uploaded Image -->
+        <div class="card interactive-card">
+            <div class="card-body">
+                <h3 class="card-title">
+                    <i class="fas fa-image text-primary"></i> Uploaded Image
+                </h3>
+                <div class="text-center">
+                    <img src="{{ url_for('static', filename='uploads/' ~ filename) }}"
+                         alt="Uploaded skin lesion"
+                         class="img-fluid rounded shadow"
+                         style="max-height: 400px;">
+                </div>
+                <div class="mt-3">
+                    <p class="text-muted small">
+                        <strong>File:</strong> {{ filename }}<br>
+                        <strong>Size:</strong> {{ analysis.image_size[0] }} x {{ analysis.image_size[1] }} pixels<br>
+                        <strong>File Size:</strong> {{ "%.1f"|format(file_size) }} KB<br>
+                        <strong>Analysis Date:</strong> {{ analysis.analysis_date }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 page-enter-delay">
+        <!-- Risk Assessment -->
+        <div class="card mb-4 interactive-card">
+            <div class="card-body">
+                <h3 class="card-title">
+                    <i class="fas fa-shield-alt"></i> Risk Assessment
+                </h3>
+
+                <div class="text-center mb-4">
+                    <div class="risk-indicator {{ analysis.risk_assessment.level.lower() }} fs-4 px-4 py-2">
+                        {{ analysis.risk_assessment.level }} RISK
+                    </div>
+                    <div class="mt-2">
+                        <span class="text-muted">
+                            Score: {{ analysis.risk_assessment.score }}/{{ analysis.risk_assessment.max_score }}
+                        </span>
+                    </div>
+                </div>
+
+                {% if analysis.risk_assessment.factors %}
+                <div class="mb-3">
+                    <h6><i class="fas fa-exclamation-circle text-warning"></i> Risk Factors Detected:</h6>
+                    <ul class="list-group list-group-flush">
+                        {% for factor in analysis.risk_assessment.factors %}
+                        <li class="list-group-item px-0">{{ factor }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <div class="alert alert-info">
+                    <h6><i class="fas fa-lightbulb"></i> Recommendation:</h6>
+                    <p class="mb-0">{{ analysis.risk_assessment.recommendation }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Analysis -->
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">
+                    <i class="fas fa-chart-line"></i> Technical Analysis
+                </h3>
+
+                <div class="row">
+                    <div class="col-sm-6 mb-3">
+                        <div class="border rounded p-3">
+                            <h6 class="text-muted">Asymmetry Score</h6>
+                            <div class="h4">{{ "%.2f"|format(analysis.asymmetry_score) }}</div>
+                            <div class="progress progress-animated" style="height: 8px;">
+                                <div class="progress-bar"
+                                     style="width: {{ (analysis.asymmetry_score)|round }}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <div class="border rounded p-3">
+                            <h6 class="text-muted">Color Variation</h6>
+                            <div class="h4">{{ "%.2f"|format(analysis.color_variation) }}</div>
+                            <div class="progress progress-animated" style="height: 8px;">
+                                <div class="progress-bar bg-warning"
+                                     style="width: {{ (analysis.color_variation * 2)|round }}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <div class="border rounded p-3">
+                            <h6 class="text-muted">Border Irregularity</h6>
+                            <div class="h4">{{ "%.2f"|format(analysis.border_irregularity) }}</div>
+                            <div class="progress progress-animated" style="height: 8px;">
+                                <div class="progress-bar bg-danger"
+                                     style="width: {{ (analysis.border_irregularity * 2.5)|round }}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <div class="border rounded p-3">
+                            <h6 class="text-muted">Average Color</h6>
+                            <div class="h6">
+                                RGB({{ analysis.avg_color[0]|round }}, 
+                                    {{ analysis.avg_color[1]|round }}, 
+                                    {{ analysis.avg_color[2]|round }})
+                            </div>
+                            <div class="mt-2"
+                                 style="height: 20px; background-color: rgb({{ analysis.avg_color[0]|round }}, {{ analysis.avg_color[1]|round }}, {{ analysis.avg_color[2]|round }}); border: 1px solid #ddd; border-radius: 3px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Important Notes -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title text-warning">
+                    <i class="fas fa-exclamation-triangle"></i> Important Notes
+                </h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success me-2"></i> This analysis is based on image processing algorithms</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Results are for screening purposes only</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Early detection significantly improves outcomes</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-times text-danger me-2"></i> Not a replacement for professional diagnosis</li>
+                            <li><i class="fas fa-times text-danger me-2"></i> Cannot detect all types of skin cancer</li>
+                            <li><i class="fas fa-times text-danger me-2"></i> When in doubt, always consult a dermatologist</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('index') }}" class="btn btn-primary me-3">
+                        <i class="fas fa-upload"></i> Analyze Another Image
+                    </a>
+                    <a href="https://www.aad.org/public/diseases/skin-cancer"
+                       target="_blank"
+                       class="btn btn-outline-info">
+                        <i class="fas fa-external-link-alt"></i> Learn More About Skin Cancer
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

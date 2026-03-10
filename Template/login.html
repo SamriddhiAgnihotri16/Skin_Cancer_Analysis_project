@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}Login - Skin Cancer Detection Tool{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 50%, #2980b9 100%);
+        min-height: 100vh;
+    }
+    
+    .auth-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .medical-icon {
+        color: #e74c3c;
+        font-size: 4rem;
+        margin-bottom: 1rem;
+    }
+    
+    .form-control {
+        border-radius: 10px;
+        border: 2px solid #ecf0f1;
+        padding: 12px 15px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+    
+    .btn-primary {
+        background: linear-gradient(45deg, #e74c3c, #c0392b);
+        border: none;
+        border-radius: 10px;
+        padding: 12px 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        background: linear-gradient(45deg, #c0392b, #a93226);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+    }
+    
+    .medical-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.1;
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="medical" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="2" fill="%23ffffff"/></pattern></defs><rect width="100" height="100" fill="url(%23medical)"/></svg>');
+        z-index: -1;
+    }
+    
+    .nav-link-auth {
+        color: #3498db !important;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .nav-link-auth:hover {
+        color: #e74c3c !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="medical-bg medical-bg-pattern"></div>
+<div class="dna-helix" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; opacity: 0.1;"></div>
+<div class="container-fluid h-100">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-md-6 col-lg-5 col-xl-4 page-enter">
+            <div class="auth-card interactive-card glass-morphism p-5">
+                <div class="text-center mb-4 page-enter-delay">
+                    <i class="fas fa-user-md medical-icon medical-icon-animated"></i>
+                    <h2 class="mb-3 fw-bold text-dark typing-effect">Medical Login</h2>
+                    <p class="text-muted">Access your skin cancer detection dashboard</p>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 10px 0 0 10px;">
+                                <i class="fas fa-user text-muted"></i>
+                            </span>
+                            {{ form.username(class="form-control border-start-0", placeholder="Enter your username", style="border-radius: 0 10px 10px 0;") }}
+                        </div>
+                        {% if form.username.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.username.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 10px 0 0 10px;">
+                                <i class="fas fa-lock text-muted"></i>
+                            </span>
+                            {{ form.password(class="form-control border-start-0", placeholder="Enter your password", style="border-radius: 0 10px 10px 0;") }}
+                        </div>
+                        {% if form.password.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.password.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid mb-4">
+                        {{ form.submit(class="btn btn-primary btn-lg btn-animated") }}
+                    </div>
+                </form>
+
+                <div class="text-center">
+                    <p class="mb-0">
+                        Don't have an account? 
+                        <a href="{{ url_for('signup') }}" class="nav-link-auth">
+                            <strong>Sign up here</strong>
+                        </a>
+                    </p>
+                </div>
+
+                <hr class="my-4">
+                
+                <!-- Medical Disclaimer -->
+                <div class="alert alert-warning p-3" style="border-radius: 10px; border: none; background: linear-gradient(45deg, #f39c12, #e67e22);">
+                    <div class="text-center text-white">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        <small><strong>Medical Tool:</strong> For healthcare professionals and screening purposes</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add focus effects to form controls
+    const inputs = document.querySelectorAll('.form-control');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentNode.style.transform = 'scale(1.02)';
+        });
+        input.addEventListener('blur', function() {
+            this.parentNode.style.transform = 'scale(1)';
+        });
+    });
+});
+</script>
+{% endblock %}

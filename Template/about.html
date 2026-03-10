@@ -1,0 +1,118 @@
+<!-- templates/about.html -->
+{% extends "base.html" %}
+
+{% block title %}About - Skin Cancer Detection Tool{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-body p-5">
+                <h1 class="display-5 text-center mb-4">
+                    <i class="fas fa-info-circle text-primary"></i> About This Tool
+                </h1>
+                
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h3><i class="fas fa-bullseye text-success"></i> Purpose</h3>
+                        <p class="lead">
+                            This skin cancer detection tool uses advanced image processing techniques 
+                            powered by Python's PIL (Pillow) library to analyze skin lesions and 
+                            provide preliminary screening results.
+                        </p>
+                        
+                        <h3 class="mt-4"><i class="fas fa-cogs text-info"></i> How It Works</h3>
+                        <p>
+                            Our analysis algorithm examines several key characteristics:
+                        </p>
+                        <ul>
+                            <li><strong>Asymmetry Analysis:</strong> Compares left and right halves of the lesion</li>
+                            <li><strong>Color Variation:</strong> Analyzes color distribution and variation</li>
+                            <li><strong>Border Irregularity:</strong> Uses edge detection to assess border characteristics</li>
+                            <li><strong>Color Enhancement:</strong> Improves image contrast for better analysis</li>
+                        </ul>
+                        
+                        <h3 class="mt-4"><i class="fas fa-flask text-warning"></i> Technology Stack</h3>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span>Backend Framework</span>
+                                        <strong>Flask</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span>Image Processing</span>
+                                        <strong>PIL/Pillow</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span>Numerical Computing</span>
+                                        <strong>NumPy</strong>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span>Frontend</span>
+                                        <strong>Bootstrap 5</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span>Icons</span>
+                                        <strong>Font Awesome</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span>Deployment</span>
+                                        <strong>Python/Flask</strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <h3 class="mt-4"><i class="fas fa-exclamation-triangle text-danger"></i> Medical Disclaimer</h3>
+                        <div class="alert alert-danger" role="alert">
+                            <h5 class="alert-heading"><i class="fas fa-shield-alt"></i> Important Notice</h5>
+                            <p>
+                                This tool is designed for <strong>educational and screening purposes only</strong>. 
+                                It is not intended to replace professional medical advice, diagnosis, or treatment.
+                            </p>
+                            <hr>
+                            <ul class="mb-0">
+                                <li>Always consult a qualified dermatologist for proper evaluation</li>
+                                <li>This tool cannot detect all types of skin cancer</li>
+                                <li>Early detection and professional medical care are crucial</li>
+                                <li>If you have concerns about any skin changes, seek medical attention immediately</li>
+                            </ul>
+                        </div>
+                        
+                        <h3 class="mt-4"><i class="fas fa-lightbulb text-primary"></i> How to Use</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ol>
+                                    <li><strong>Upload Image:</strong> Select a clear, well-lit photo of the skin lesion</li>
+                                    <li><strong>Analysis:</strong> Our algorithm will process the image automatically</li>
+                                    <li><strong>Review Results:</strong> Examine the risk assessment and technical analysis</li>
+                                </ol>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Tips for Best Results:</h6>
+                                <ul>
+                                    <li>Use good lighting</li>
+                                    <li>Focus clearly on the lesion</li>
+                                    <li>Avoid shadows and reflections</li>
+                                    <li>Include some surrounding skin for context</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-upload"></i> Start Analysis
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

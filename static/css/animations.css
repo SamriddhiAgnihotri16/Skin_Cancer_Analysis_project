@@ -1,0 +1,576 @@
+/* ================================
+   ADVANCED ANIMATIONS & EFFECTS
+   Skin Cancer Detection Tool
+   ================================ */
+
+/* Loading Animations */
+@keyframes medicalPulse {
+    0% { 
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+        transform: scale(1);
+    }
+    70% { 
+        box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+        transform: scale(1.05);
+    }
+    100% { 
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+        transform: scale(1);
+    }
+}
+
+@keyframes heartbeat {
+    0%, 50%, 100% { transform: scale(1); }
+    25%, 75% { transform: scale(1.1); }
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 5px rgba(231, 76, 60, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(231, 76, 60, 0.8); }
+}
+
+/* Medical Background Patterns */
+.medical-bg-pattern {
+    background-image: 
+        radial-gradient(circle at 20px 50px, rgba(255, 255, 255, 0.1) 2px, transparent 3px),
+        radial-gradient(circle at 40px 80px, rgba(231, 76, 60, 0.1) 1px, transparent 2px),
+        linear-gradient(135deg, transparent 25%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.05) 50%, transparent 50%);
+    background-size: 60px 60px, 40px 40px, 40px 40px;
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Hospital Background Theme */
+.hospital-theme {
+    background: linear-gradient(rgba(255, 255, 255, 0.95), rgba(248, 249, 250, 0.95)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="hospital-pattern" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse"><circle cx="60" cy="60" r="3" fill="%23e74c3c" opacity="0.1"/><path d="M60 40 L60 80 M40 60 L80 60" stroke="%233498db" stroke-width="2" opacity="0.1"/></pattern></defs><rect width="1200" height="800" fill="url(%23hospital-pattern)"/></svg>');
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+/* Doctor-Patient Theme Background */
+.doctor-patient-bg {
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600"><defs><pattern id="medical-grid" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1.5" fill="%23e74c3c" opacity="0.3"/><circle cx="10" cy="10" r="1" fill="%233498db" opacity="0.2"/><circle cx="40" cy="15" r="1" fill="%2327ae60" opacity="0.2"/></pattern></defs><rect width="1000" height="600" fill="url(%23medical-grid)"/></svg>');
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+/* Medical Equipment Background */
+.medical-equipment-bg {
+    background: linear-gradient(rgba(255, 255, 255, 0.92), rgba(248, 249, 250, 0.92)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><g opacity="0.15"><circle cx="100" cy="100" r="25" fill="%23e74c3c"/><rect x="200" y="80" width="30" height="40" rx="5" fill="%233498db"/><path d="M350 120 C350 110, 360 100, 370 100 C380 100, 390 110, 390 120" stroke="%2327ae60" stroke-width="3" fill="none"/><circle cx="500" cy="110" r="15" fill="%23f39c12"/><rect x="600" y="90" width="20" height="30" rx="10" fill="%239b59b6"/></g></svg>');
+    background-size: 800px 600px;
+    background-repeat: repeat;
+}
+
+.dna-helix {
+    background-image: 
+        repeating-linear-gradient(
+            45deg,
+            rgba(52, 152, 219, 0.1) 0px,
+            rgba(52, 152, 219, 0.1) 1px,
+            transparent 1px,
+            transparent 15px
+        ),
+        repeating-linear-gradient(
+            -45deg,
+            rgba(231, 76, 60, 0.1) 0px,
+            rgba(231, 76, 60, 0.1) 1px,
+            transparent 1px,
+            transparent 15px
+        );
+    animation: rotate 20s linear infinite;
+}
+
+/* Interactive Card Effects */
+.interactive-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+}
+
+.interactive-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+    z-index: 1;
+}
+
+.interactive-card:hover::before {
+    left: 100%;
+}
+
+.interactive-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Button Animations */
+.btn-animated {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn-animated::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: width 0.6s, height 0.6s;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+
+.btn-animated:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-animated span {
+    position: relative;
+    z-index: 1;
+}
+
+/* Form Animations */
+.form-floating-enhanced {
+    position: relative;
+}
+
+.form-floating-enhanced input:focus + label,
+.form-floating-enhanced input:not(:placeholder-shown) + label {
+    transform: translateY(-25px) scale(0.8);
+    color: var(--medical-primary);
+}
+
+.form-floating-enhanced label {
+    transition: all 0.3s ease;
+    transform-origin: left top;
+}
+
+/* Upload Area Enhancements */
+.upload-enhanced {
+    position: relative;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 3px dashed var(--medical-secondary);
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.upload-enhanced::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--medical-primary), var(--medical-secondary), var(--medical-success));
+    border-radius: 22px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.upload-enhanced:hover::before {
+    opacity: 1;
+}
+
+.upload-enhanced:hover {
+    transform: scale(1.02) translateY(-5px);
+    border-color: transparent;
+}
+
+/* Progress Bar Animations */
+.progress-animated {
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-animated::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Navigation Enhancements */
+.navbar-enhanced {
+    backdrop-filter: blur(10px);
+    background: linear-gradient(90deg, rgba(44, 62, 80, 0.95) 0%, rgba(231, 76, 60, 0.95) 100%) !important;
+}
+
+.nav-link-enhanced {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.nav-link-enhanced::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link-enhanced:hover::after {
+    width: 80%;
+}
+
+/* Medical Icons Animations */
+.medical-icon-animated {
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.medical-icon-animated:hover {
+    animation: heartbeat 1s ease-in-out;
+    color: var(--medical-primary);
+}
+
+/* Loading Spinner */
+.medical-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(231, 76, 60, 0.1);
+    border-left: 4px solid var(--medical-primary);
+    border-radius: 50%;
+    animation: rotate 1s linear infinite;
+}
+
+/* Particle Effect */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+.particle {
+    position: absolute;
+    background: var(--medical-primary);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: particleFloat 6s ease-in-out infinite;
+}
+
+.particle:nth-child(odd) {
+    background: var(--medical-secondary);
+    animation-delay: -2s;
+}
+
+.particle:nth-child(3n) {
+    background: var(--medical-success);
+    animation-delay: -4s;
+}
+
+@keyframes particleFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10%, 90% {
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0.8;
+    }
+}
+
+/* Responsive Animations */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Statistics Counter Animation */
+.counter-animated {
+    font-weight: bold;
+    color: var(--medical-primary);
+}
+
+/* Risk Level Indicators */
+.risk-indicator {
+    position: relative;
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.risk-indicator.high {
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    color: white;
+    animation: glow 2s ease-in-out infinite;
+}
+
+.risk-indicator.moderate {
+    background: linear-gradient(45deg, #f39c12, #e67e22);
+    color: white;
+}
+
+.risk-indicator.low {
+    background: linear-gradient(45deg, #27ae60, #229954);
+    color: white;
+}
+
+/* Hover Effects for Cards */
+.card-hover-effect {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+}
+
+.card-hover-effect:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* Glass Morphism Effect */
+.glass-morphism {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+}
+
+/* Medical Cross Animation */
+@keyframes medicalCross {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(90deg); }
+    50% { transform: rotate(180deg); }
+    75% { transform: rotate(270deg); }
+}
+
+.medical-cross-animated {
+    animation: medicalCross 4s ease-in-out infinite;
+    color: var(--medical-primary);
+}
+
+/* Stethoscope Animation */
+@keyframes stethoscope {
+    0%, 100% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+}
+
+.stethoscope-animated {
+    animation: stethoscope 2s ease-in-out infinite;
+    transform-origin: center bottom;
+}
+
+/* Page Transition Effects */
+.page-enter {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.page-enter-delay {
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.page-enter-delay-2 {
+    animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+/* Medical Professional Animations */
+@keyframes doctorWalk {
+    0%, 100% { transform: translateX(0) scale(1); }
+    50% { transform: translateX(10px) scale(1.05); }
+}
+
+.doctor-animation {
+    animation: doctorWalk 3s ease-in-out infinite;
+}
+
+/* Hospital Ambiance Effect */
+.hospital-ambiance {
+    position: relative;
+    overflow: hidden;
+}
+
+.hospital-ambiance::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(231, 76, 60, 0.03) 30%,
+        rgba(231, 76, 60, 0.03) 32%,
+        transparent 32%,
+        transparent 65%,
+        rgba(52, 152, 219, 0.03) 65%,
+        rgba(52, 152, 219, 0.03) 67%,
+        transparent 67%
+    );
+    animation: hospitalSweep 15s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes hospitalSweep {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* Medical Chart Animation */
+@keyframes medicalChart {
+    0% { stroke-dashoffset: 100; }
+    100% { stroke-dashoffset: 0; }
+}
+
+.medical-chart-line {
+    stroke-dasharray: 100;
+    animation: medicalChart 3s ease-in-out infinite alternate;
+}
+
+/* Heartbeat Monitor Effect */
+@keyframes heartbeatLine {
+    0%, 10%, 90%, 100% { transform: scaleY(1); }
+    20% { transform: scaleY(2); }
+    30% { transform: scaleY(0.5); }
+    40% { transform: scaleY(3); }
+    50% { transform: scaleY(1); }
+}
+
+.heartbeat-monitor {
+    display: inline-block;
+    width: 2px;
+    height: 20px;
+    background: var(--medical-primary);
+    margin: 0 1px;
+    animation: heartbeatLine 2s ease-in-out infinite;
+}
+
+.heartbeat-monitor:nth-child(2) { animation-delay: 0.1s; }
+.heartbeat-monitor:nth-child(3) { animation-delay: 0.2s; }
+.heartbeat-monitor:nth-child(4) { animation-delay: 0.3s; }
+.heartbeat-monitor:nth-child(5) { animation-delay: 0.4s; }
+
+/* Medical Badge Glow */
+.medical-badge-glow {
+    position: relative;
+    animation: medicalBadgeGlow 3s ease-in-out infinite;
+}
+
+@keyframes medicalBadgeGlow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(231, 76, 60, 0.6), 0 0 30px rgba(231, 76, 60, 0.3);
+    }
+}
+
+/* Treatment Progress Animation */
+.treatment-progress {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 25px;
+}
+
+.treatment-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(39, 174, 96, 0.3), transparent);
+    animation: treatmentScan 3s linear infinite;
+}
+
+@keyframes treatmentScan {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}

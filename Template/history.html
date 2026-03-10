@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+{% block title %}Diagnosis History - Skin Cancer Detection Tool{% endblock %}
+
+{% block extra_css %}
+<style>
+    .history-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .analysis-item {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .analysis-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        border-color: #e74c3c;
+    }
+    
+    .risk-badge {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+    
+    .risk-LOW {
+        background: #d4edda;
+        color: #155724;
+        border: 2px solid #c3e6cb;
+    }
+    
+    .risk-MODERATE {
+        background: #fff3cd;
+        color: #856404;
+        border: 2px solid #ffeaa7;
+    }
+    
+    .risk-HIGH {
+        background: #f8d7da;
+        color: #721c24;
+        border: 2px solid #f5c6cb;
+    }
+    
+    .analysis-date {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #6c757d;
+    }
+    
+    .empty-state i {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+    
+    .filter-tabs {
+        border-bottom: 2px solid #dee2e6;
+        margin-bottom: 2rem;
+    }
+    
+    .filter-tab {
+        background: none;
+        border: none;
+        padding: 1rem 1.5rem;
+        font-weight: 600;
+        color: #6c757d;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .filter-tab.active {
+        color: #e74c3c;
+        border-bottom-color: #e74c3c;
+    }
+    
+    .filter-tab:hover {
+        color: #e74c3c;
+        background: rgba(231, 76, 60, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="history-card p-5 page-enter">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold mb-0">
+                        <i class="fas fa-history text-primary me-2"></i>
+                        Diagnosis History
+                    </h2>
+                    <div>
+                        <a href="{{ url_for('diagnose') }}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>New Analysis
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Filter Tabs -->
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterAnalyses('all')">
+                        <i class="fas fa-list me-2"></i>All ({{ analyses|length }})
+                    </button>
+                    <button class="filter-tab" onclick="filterAnalyses('HIGH')">
+                        <i class="fas fa-exclamation-triangle me-2"></i>High Risk ({{ analyses|selectattr('risk_level', 'equalto', 'HIGH')|list|length }})
+                    </button>
+                    <button class="filter-tab" onclick="filterAnalyses('MODERATE')">
+                        <i class="fas fa-exclamation-circle me-2"></i>Moderate Risk ({{ analyses|selectattr('risk_level', 'equalto', 'MODERATE')|list|length }})
+                    </button>
+                    <button class="filter-tab" onclick="filterAnalyses('LOW')">
+                        <i class="fas fa-check-circle me-2"></i>Low Risk ({{ analyses|selectattr('risk_level', 'equalto', 'LOW')|list|length }})
+                    </button>
+                </div>
+                
+                {% if analyses %}
+                <div id="analyses-container">
+                    {% for analysis in analyses %}
+                    <div class="analysis-item page-enter-delay" data-risk="{{ analysis.risk_level }}">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="mb-2">
+                                    <i class="fas fa-file-medical me-2"></i>
+                                    Analysis #{{ analysis.id }}
+                                </h5>
+                                <p class="analysis-date mb-2">
+                                    <i class="fas fa-calendar me-2"></i>
+                                    {{ analysis.analysis_date.strftime('%B %d, %Y at %I:%M %p') }}
+                                </p>
+                                <p class="text-muted mb-0">
+                                    <i class="fas fa-image me-2"></i>
+                                    File: {{ analysis.filename.split('_', 1)[1] if '_' in analysis.filename else analysis.filename }}
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <div class="mb-3">
+                                    <span class="risk-badge risk-{{ analysis.risk_level }}">
+                                        {% if analysis.risk_level == 'HIGH' %}
+                                            <i class="fas fa-exclamation-triangle me-1"></i>
+                                        {% elif analysis.risk_level == 'MODERATE' %}
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                        {% else %}
+                                            <i class="fas fa-check-circle me-1"></i>
+                                        {% endif %}
+                                        {{ analysis.risk_level }} RISK
+                                    </span>
+                                </div>
+                                <div class="text-muted">
+                                    <small>Score: {{ analysis.risk_score }}/7</small>
+                                </div>
+                                <div class="mt-2">
+                                    <button class="btn btn-outline-primary btn-sm me-2" onclick="viewAnalysis('{{ analysis.id }}')">
+                                        <i class="fas fa-eye me-1"></i>View Details
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-sm" onclick="deleteAnalysis('{{ analysis.id }}')">
+                                        <i class="fas fa-trash me-1"></i>Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h4 class="mb-3">No Analysis History</h4>
+                    <p class="mb-4">You haven't performed any skin analysis yet.</p>
+                    <a href="{{ url_for('diagnose') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-stethoscope me-2"></i>Start Your First Analysis
+                    </a>
+                </div>
+                {% endif %}
+                
+                {% if analyses %}
+                <!-- Statistics Summary -->
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <hr class="mb-4">
+                        <h4 class="mb-3">
+                            <i class="fas fa-chart-bar text-primary me-2"></i>
+                            Summary Statistics
+                        </h4>
+                        <div class="row g-4">
+                            <div class="col-md-3">
+                                <div class="text-center p-3" style="background: linear-gradient(135deg, #d4edda, #c3e6cb); border-radius: 15px;">
+                                    <h3 class="text-success">{{ analyses|selectattr('risk_level', 'equalto', 'LOW')|list|length }}</h3>
+                                    <p class="mb-0 text-success">Low Risk</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center p-3" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-radius: 15px;">
+                                    <h3 class="text-warning">{{ analyses|selectattr('risk_level', 'equalto', 'MODERATE')|list|length }}</h3>
+                                    <p class="mb-0 text-warning">Moderate Risk</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center p-3" style="background: linear-gradient(135deg, #f8d7da, #f5c6cb); border-radius: 15px;">
+                                    <h3 class="text-danger">{{ analyses|selectattr('risk_level', 'equalto', 'HIGH')|list|length }}</h3>
+                                    <p class="mb-0 text-danger">High Risk</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center p-3" style="background: linear-gradient(135deg, #e9ecef, #dee2e6); border-radius: 15px;">
+                                    <h3 class="text-dark">{{ analyses|length }}</h3>
+                                    <p class="mb-0 text-dark">Total Analyses</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function filterAnalyses(riskLevel) {
+    const items = document.querySelectorAll('.analysis-item');
+    const tabs = document.querySelectorAll('.filter-tab');
+    
+    // Update active tab
+    tabs.forEach(tab => tab.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    // Filter items
+    items.forEach(item => {
+        if (riskLevel === 'all' || item.dataset.risk === riskLevel) {
+            item.style.display = 'block';
+            item.style.animation = 'fadeIn 0.5s ease-in';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+function viewAnalysis(analysisId) {
+    alert(`Viewing detailed analysis #${analysisId}`);
+    // In a real app, this would redirect to a detailed view
+}
+
+function deleteAnalysis(analysisId) {
+    if (confirm('Are you sure you want to delete this analysis? This action cannot be undone.')) {
+        alert(`Analysis #${analysisId} would be deleted here`);
+        // In a real app, this would make an API call to delete the analysis
+    }
+}
+
+// Add fade-in animation CSS if not already present
+if (!document.querySelector('#fadeInStyle')) {
+    const style = document.createElement('style');
+    style.id = 'fadeInStyle';
+    style.textContent = `
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    `;
+    document.head.appendChild(style);
+}
+</script>
+{% endblock %}

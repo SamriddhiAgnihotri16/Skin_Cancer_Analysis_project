@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+{% block title %}Sign Up - Skin Cancer Detection Tool{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #27ae60 0%, #2ecc71 50%, #1abc9c 100%);
+        min-height: 100vh;
+    }
+    
+    .auth-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .medical-icon {
+        color: #27ae60;
+        font-size: 4rem;
+        margin-bottom: 1rem;
+    }
+    
+    .form-control {
+        border-radius: 10px;
+        border: 2px solid #ecf0f1;
+        padding: 12px 15px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #27ae60;
+        box-shadow: 0 0 0 0.2rem rgba(39, 174, 96, 0.25);
+    }
+    
+    .btn-success {
+        background: linear-gradient(45deg, #27ae60, #229954);
+        border: none;
+        border-radius: 10px;
+        padding: 12px 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-success:hover {
+        background: linear-gradient(45deg, #229954, #1e8449);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+    }
+    
+    .medical-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0.1;
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="medical" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M12.5 5 L12.5 20 M5 12.5 L20 12.5" stroke="%23ffffff" stroke-width="2" fill="none"/></pattern></defs><rect width="100" height="100" fill="url(%23medical)"/></svg>');
+        z-index: -1;
+    }
+    
+    .nav-link-auth {
+        color: #27ae60 !important;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .nav-link-auth:hover {
+        color: #1abc9c !important;
+    }
+    
+    .password-strength {
+        margin-top: 5px;
+        font-size: 12px;
+    }
+    
+    .password-weak { color: #e74c3c; }
+    .password-medium { color: #f39c12; }
+    .password-strong { color: #27ae60; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="medical-bg medical-bg-pattern"></div>
+<div class="dna-helix" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; opacity: 0.15;"></div>
+<div class="container-fluid h-100">
+    <div class="row justify-content-center align-items-center min-vh-100 py-4">
+        <div class="col-md-6 col-lg-5 col-xl-4 page-enter">
+            <div class="auth-card interactive-card glass-morphism p-5">
+                <div class="text-center mb-4 page-enter-delay">
+                    <i class="fas fa-stethoscope medical-icon medical-icon-animated"></i>
+                    <h2 class="mb-3 fw-bold text-dark typing-effect">Medical Registration</h2>
+                    <p class="text-muted">Create your skin cancer detection account</p>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 10px 0 0 10px;">
+                                <i class="fas fa-envelope text-muted"></i>
+                            </span>
+                            {{ form.email(class="form-control border-start-0", placeholder="Enter your email", style="border-radius: 0 10px 10px 0;") }}
+                        </div>
+                        {% if form.email.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.email.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 10px 0 0 10px;">
+                                <i class="fas fa-user text-muted"></i>
+                            </span>
+                            {{ form.username(class="form-control border-start-0", placeholder="Choose a username", style="border-radius: 0 10px 10px 0;") }}
+                        </div>
+                        {% if form.username.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.username.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 10px 0 0 10px;">
+                                <i class="fas fa-lock text-muted"></i>
+                            </span>
+                            {{ form.password(class="form-control border-start-0", placeholder="Create a password", style="border-radius: 0 10px 10px 0;", id="password") }}
+                        </div>
+                        <div id="password-strength" class="password-strength"></div>
+                        {% if form.password.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.password.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0" style="border-radius: 10px 0 0 10px;">
+                                <i class="fas fa-lock text-muted"></i>
+                            </span>
+                            {{ form.confirm_password(class="form-control border-start-0", placeholder="Confirm your password", style="border-radius: 0 10px 10px 0;") }}
+                        </div>
+                        {% if form.confirm_password.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.confirm_password.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid mb-4">
+                        {{ form.submit(class="btn btn-success btn-lg btn-animated") }}
+                    </div>
+                </form>
+
+                <div class="text-center">
+                    <p class="mb-0">
+                        Already have an account? 
+                        <a href="{{ url_for('login') }}" class="nav-link-auth">
+                            <strong>Sign in here</strong>
+                        </a>
+                    </p>
+                </div>
+
+                <hr class="my-4">
+                
+                <!-- Terms and Privacy -->
+                <div class="alert alert-info p-3" style="border-radius: 10px; border: none; background: linear-gradient(45deg, #3498db, #2980b9);">
+                    <div class="text-center text-white">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <small>By signing up, you agree to use this tool responsibly for medical screening purposes</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('password');
+    const strengthDiv = document.getElementById('password-strength');
+    
+    // Password strength checker
+    passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        let strength = 0;
+        let message = '';
+        let className = '';
+        
+        if (password.length >= 6) strength++;
+        if (password.match(/[a-z]/)) strength++;
+        if (password.match(/[A-Z]/)) strength++;
+        if (password.match(/[0-9]/)) strength++;
+        if (password.match(/[^a-zA-Z0-9]/)) strength++;
+        
+        switch(strength) {
+            case 0:
+            case 1:
+                message = 'Weak password';
+                className = 'password-weak';
+                break;
+            case 2:
+            case 3:
+                message = 'Medium strength password';
+                className = 'password-medium';
+                break;
+            case 4:
+            case 5:
+                message = 'Strong password';
+                className = 'password-strong';
+                break;
+        }
+        
+        strengthDiv.textContent = password.length > 0 ? message : '';
+        strengthDiv.className = 'password-strength ' + className;
+    });
+    
+    // Add focus effects to form controls
+    const inputs = document.querySelectorAll('.form-control');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentNode.style.transform = 'scale(1.02)';
+        });
+        input.addEventListener('blur', function() {
+            this.parentNode.style.transform = 'scale(1)';
+        });
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,335 @@
+{% extends "base.html" %}
+
+{% block title %}Cancer Types{% endblock %}
+
+{% block extra_css %}
+<style>
+.medical-hero {
+    background: linear-gradient(rgba(0, 123, 191, 0.8), rgba(0, 150, 136, 0.8)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="medical-cross" patternUnits="userSpaceOnUse" width="40" height="40"><path d="M18,16h4v8h-4v-4h-8v-4h8v-4Z" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="1200" height="600" fill="%2300bcd4"/><rect width="1200" height="600" fill="url(%23medical-cross)"/></svg>');
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.statistics-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.cancer-type-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cancer-type-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.medical-background {
+    background: var(--bg-primary),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><pattern id="medical-cross-bg" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="3" fill="%23e3f2fd" opacity="0.3"/><path d="M20 10 L20 30 M10 20 L30 20" stroke="%233498db" stroke-width="1" opacity="0.2"/></pattern></defs><rect width="200" height="200" fill="url(%23medical-cross-bg)"/><circle cx="50" cy="50" r="8" fill="%23e74c3c" opacity="0.1"/><circle cx="150" cy="50" r="6" fill="%2327ae60" opacity="0.1"/><circle cx="100" cy="150" r="10" fill="%23f39c12" opacity="0.1"/></svg>');
+    background-size: cover, 200px 200px;
+    background-attachment: fixed, scroll;
+    min-height: 100vh;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.stat-number {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #4fc3f7;
+}
+
+.cancer-icon {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 123, 191, 0.1);
+    border-radius: 50%;
+    margin: 0 auto;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.risk-badge {
+    font-size: 0.9em;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.prevention-card {
+    background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+    border-radius: 15px;
+    padding: 25px;
+    color: white;
+    margin-top: 30px;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-card {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.india-stats {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+    color: #2c3e50;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="medical-background">
+    <!-- Hero Section -->
+    <div class="medical-hero">
+        <div class="container">
+            <h1 class="display-4 mb-3">🩺 Skin Cancer Types & Information</h1>
+            <p class="lead">Comprehensive guide to understanding skin cancer with India-specific statistics</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- India-Specific Statistics -->
+        <div class="india-stats animate-card">
+            <h2 class="text-center mb-4">📊 Skin Cancer in India: Key Statistics</h2>
+            <div class="row">
+                <div class="col-md-3 text-center">
+                    <div class="stat-number">15,000+</div>
+                    <p><strong>New Cases Annually</strong><br>Estimated new skin cancer cases in India per year</p>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="stat-number">2-3%</div>
+                    <p><strong>Cancer Incidence</strong><br>Of all cancer cases in India are skin cancers</p>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="stat-number">70%</div>
+                    <p><strong>UV Exposure Risk</strong><br>Cases linked to excessive sun exposure</p>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="stat-number">90%+</div>
+                    <p><strong>Survival Rate</strong><br>When detected early and treated properly</p>
+                </div>
+            </div>
+            <div class="alert alert-info mt-3">
+                <strong>🌅 Regional Impact:</strong> Higher incidence rates in states like Rajasthan, Gujarat, and coastal regions due to intense UV radiation and outdoor occupations.
+            </div>
+        </div>
+
+        <!-- Cancer Types -->
+        <div class="row">
+            <!-- Basal Cell Carcinoma -->
+            <div class="col-md-12 mb-4">
+                <div class="cancer-type-card animate-card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">🔬 Basal Cell Carcinoma (BCC)</h3>
+                        <small>Most Common Type - 70% of skin cancers in India</small>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <p class="lead">The most common skin cancer, particularly affecting fair-skinned individuals and those with prolonged sun exposure.</p>
+                                <h5>🩺 Symptoms & Signs:</h5>
+                                <ul class="list-unstyled">
+                                    <li>✓ Small, shiny, pearly bump on sun-exposed areas</li>
+                                    <li>✓ Flat, scaly, flesh-colored or brown patch</li>
+                                    <li>✓ Red, raised patch that may itch</li>
+                                    <li>✓ Sore that bleeds easily and doesn't heal</li>
+                                    <li>✓ Waxy, scar-like lesion without defined border</li>
+                                </ul>
+                                <span class="risk-badge bg-success text-white">Risk Level: LOW - Rarely spreads</span>
+                                <div class="mt-3">
+                                    <small class="text-muted"><strong>India Context:</strong> Common in northern plains and coastal workers, farmers, and outdoor professionals</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="cancer-icon">
+                                    <i class="fas fa-microscope fa-3x text-primary"></i>
+                                </div>
+                                <p class="mt-3"><strong>Early Detection Rate:</strong><br><span class="text-success">95% curable when caught early</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Squamous Cell Carcinoma -->
+            <div class="col-md-12 mb-4">
+                <div class="cancer-type-card animate-card">
+                    <div class="card-header bg-warning text-dark">
+                        <h3 class="mb-0">🔍 Squamous Cell Carcinoma (SCC)</h3>
+                        <small>Second Most Common - 20% of skin cancers in India</small>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <p class="lead">More aggressive than BCC, with potential to spread if left untreated. Common in agricultural workers.</p>
+                                <h5>🩺 Symptoms & Signs:</h5>
+                                <ul class="list-unstyled">
+                                    <li>✓ Rough, scaly red patches on sun-exposed skin</li>
+                                    <li>✓ Open sores that don't heal properly</li>
+                                    <li>✓ Raised growths with central depression</li>
+                                    <li>✓ Wart-like growths that may bleed</li>
+                                    <li>✓ Persistent ulcers on lips or mouth</li>
+                                </ul>
+                                <span class="risk-badge bg-warning text-dark">Risk Level: MODERATE - Can spread to lymph nodes</span>
+                                <div class="mt-3">
+                                    <small class="text-muted"><strong>India Context:</strong> Higher rates in agricultural states (Punjab, Haryana) and among beedi workers</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="cancer-icon">
+                                    <i class="fas fa-search fa-3x text-warning"></i>
+                                </div>
+                                <p class="mt-3"><strong>5-Year Survival:</strong><br><span class="text-warning">85-90% when localized</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Melanoma -->
+            <div class="col-md-12 mb-4">
+                <div class="cancer-type-card animate-card">
+                    <div class="card-header bg-danger text-white">
+                        <h3 class="mb-0">⚠️ Melanoma</h3>
+                        <small>Most Serious Type - 5% of skin cancers but causes 75% of deaths</small>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <p class="lead">The deadliest form of skin cancer. Rising incidence in urban India due to lifestyle changes.</p>
+                                <h5>🆘 ABCDE Warning Signs:</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled">
+                                            <li><span class="badge badge-danger">A</span> <strong>Asymmetry</strong> - Uneven halves</li>
+                                            <li><span class="badge badge-danger">B</span> <strong>Border</strong> - Irregular edges</li>
+                                            <li><span class="badge badge-danger">C</span> <strong>Color</strong> - Multiple colors</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled">
+                                            <li><span class="badge badge-danger">D</span> <strong>Diameter</strong> - Larger than 6mm</li>
+                                            <li><span class="badge badge-danger">E</span> <strong>Evolving</strong> - Changing appearance</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <span class="risk-badge bg-danger text-white">Risk Level: HIGH - Can spread rapidly</span>
+                                <div class="mt-3">
+                                    <small class="text-muted"><strong>India Context:</strong> Increasing in metro cities (Mumbai, Delhi, Bangalore) among urban professionals</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="cancer-icon">
+                                    <i class="fas fa-exclamation-triangle fa-3x text-danger"></i>
+                                </div>
+                                <p class="mt-3"><strong>Early Stage Survival:</strong><br><span class="text-success">99% (Stage I)</span><br><span class="text-danger">15% (Stage IV)</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prevention & Detection -->
+        <div class="prevention-card animate-card">
+            <h2 class="text-center mb-4">🛡️ Prevention & Early Detection</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>☀️ Sun Protection:</h5>
+                    <ul>
+                        <li>Use SPF 30+ broad-spectrum sunscreen</li>
+                        <li>Avoid 10 AM - 4 PM sun exposure</li>
+                        <li>Wear protective clothing, hats, sunglasses</li>
+                        <li>Seek shade during peak hours</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>🔍 Self-Examination:</h5>
+                    <ul>
+                        <li>Monthly full-body skin checks</li>
+                        <li>Use mirrors for hard-to-see areas</li>
+                        <li>Track changes with photos</li>
+                        <li>Check between fingers and toes</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>🏥 Medical Consultation:</h5>
+                    <ul>
+                        <li>Annual dermatologist visits</li>
+                        <li>Immediate check for suspicious lesions</li>
+                        <li>Family history screening</li>
+                        <li>High-risk occupation monitoring</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="alert alert-light mt-4">
+                <h6><strong>🇮🇳 India-Specific Recommendations:</strong></h6>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>High-Risk Occupations:</strong></p>
+                        <ul class="mb-0">
+                            <li>Farmers and agricultural workers</li>
+                            <li>Construction and outdoor laborers</li>
+                            <li>Fishermen and coastal workers</li>
+                            <li>Traffic police and security guards</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Regional Considerations:</strong></p>
+                        <ul class="mb-0">
+                            <li>Extra protection in high-altitude areas</li>
+                            <li>Increased screening in fair-skinned communities</li>
+                            <li>Awareness programs in rural areas</li>
+                            <li>Early detection camps in high-risk regions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="text-center mt-5 mb-4">
+            <div class="card shadow-lg">
+                <div class="card-body bg-light">
+                    <h3 class="text-primary">💡 Take Action Today</h3>
+                    <p class="lead">Early detection saves lives. Use our AI-powered skin analysis tool for preliminary screening.</p>
+                    <a href="{{ url_for('diagnose') }}" class="btn btn-primary btn-lg mr-3">
+                        <i class="fas fa-camera"></i> Start Skin Analysis
+                    </a>
+                    <a href="{{ url_for('about') }}" class="btn btn-outline-secondary btn-lg">
+                        <i class="fas fa-info-circle"></i> Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
